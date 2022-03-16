@@ -1,6 +1,7 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const conT = require("console.table");
+var questions = require("./db/questions.js");
 
 const express = require("express");
 const routes = require("./routes");
