@@ -21,6 +21,6 @@ INSERT INTO employee (first_name, last_name, manager_id, role_id) VALUE ("Tom", 
 SELECT *
 FROM department;
 SELECT *
-FROM 'role';
+FROM role;
 SELECT *
 FROM employee;
