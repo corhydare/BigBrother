@@ -80,16 +80,14 @@ function addEmployee() {
   inquirer
     .prompt([
       {
-        name: "First Name",
+        name: "firstname",
         type: "input",
         message: "Enter their first name ",
-        value: "firstname",
       },
       {
-        name: "Last Name",
+        name: "lastname",
         type: "input",
         message: "Enter their last name ",
-        value: "lastname",
       },
       {
         name: "role",
