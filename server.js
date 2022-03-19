@@ -76,54 +76,6 @@ function viewAllEmployees() {
   );
 }
 ///////////////////////////////
-function viewAllRoles() {
-  db.query(
-    "SELECT employee.id AS ID, role.title AS Title, department.name AS Department, role.salary AS Salary FROM employee INNER JOIN role on role.id = employee.role_id INNER JOIN department on department.id = role.department_id ORDER BY department.id;",
-    function (err, res) {
-      if (err) throw err;
-      console.table(res);
-      beginSpying();
-    }
-  );
-}
-/////////////////
-function viewAllDepartments() {
-  db.query(
-    "SELECT department.id as ID, department.name AS Department FROM department ORDER BY department.id;",
-    function (err, res) {
-      if (err) throw err;
-      console.table(res);
-      beginSpying();
-    }
-  );
-}
-
-/////////////////////////////////
-let rArr = [];
-function selectRole() {
-  db.query("SELECT * FROM role", function (err, res) {
-    if (err) throw err;
-    for (let i = 0; i < res.length; i++) {
-      rArr.push(res[i].title);
-    }
-  });
-  return rArr;
-}
-/////////////////////
-let mArr = [];
-function selectManager() {
-  db.query(
-    "SELECT first_name, last_name FROM employee WHERE manager_id IS NULL",
-    function (err, res) {
-      if (err) throw err;
-      for (let i = 0; i < res.length; i++) {
-        mArr.push(res[i].first_name);
-      }
-    }
-  );
-  return mArr;
-}
-///////////////////////
 function addEmployee() {
   inquirer
     .prompt([
@@ -169,7 +121,7 @@ function addEmployee() {
       );
     });
 }
-////////
+////////////////////////////////
 function updateEmployee() {
   db.query(
     "SELECT employee.last_name, role.title FROM employee JOIN role ON employee.role_id = role.id;",
@@ -218,7 +170,57 @@ function updateEmployee() {
     }
   );
 }
-////////
+/////////////////////////////
+function viewAllRoles() {
+  db.query(
+    "SELECT employee.id AS ID, role.title AS Title, department.name AS Department, role.salary AS Salary FROM employee INNER JOIN role on role.id = employee.role_id INNER JOIN department on department.id = role.department_id ORDER BY department.id;",
+    function (err, res) {
+      if (err) throw err;
+      console.table(res);
+      beginSpying();
+    }
+  );
+}
+/////////////////
+
+/////////////////////////////////////////
+function viewAllDepartments() {
+  db.query(
+    "SELECT department.id as ID, department.name AS Department FROM department ORDER BY department.id;",
+    function (err, res) {
+      if (err) throw err;
+      console.table(res);
+      beginSpying();
+    }
+  );
+}
+
+/////////////////////////////////
+let rArr = [];
+function selectRole() {
+  db.query("SELECT * FROM role", function (err, res) {
+    if (err) throw err;
+    for (let i = 0; i < res.length; i++) {
+      rArr.push(res[i].title);
+    }
+  });
+  return rArr;
+}
+/////////////////////
+let mArr = [];
+function selectManager() {
+  db.query(
+    "SELECT first_name, last_name FROM employee WHERE manager_id IS NULL",
+    function (err, res) {
+      if (err) throw err;
+      for (let i = 0; i < res.length; i++) {
+        mArr.push(res[i].first_name);
+      }
+    }
+  );
+  return mArr;
+}
+///////////////////////
 function addRole() {
   db.query(
     "SELECT role.title AS Title, role.salary AS Salary FROM role",
@@ -302,13 +304,6 @@ function beginSpying() {
           viewAllEmployees();
           break;
 
-        case "View All Roles":
-          viewAllRoles();
-          break;
-        case "View All Deparments":
-          viewAllDepartments();
-          break;
-
         case "Add Employee?":
           addEmployee();
           break;
@@ -317,8 +312,16 @@ function beginSpying() {
           updateEmployee();
           break;
 
+        case "View All Roles":
+          viewAllRoles();
+          break;
+
         case "Add Role":
           addRole();
+          break;
+
+        case "View All Deparments":
+          viewAllDepartments();
           break;
 
         case "Add Department?":
