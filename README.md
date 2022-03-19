@@ -34,7 +34,11 @@ arrow keys for selection and enter to confirm selection
 
 #### Video
 
-https://github.com/corhydare/DontReadThis/blob/main/mysql_demo.mp4
+
+https://user-images.githubusercontent.com/57278348/159139431-5c5308ca-af55-4481-bacd-618f0f89caed.mp4
+
+
+
 
 ## Licenses
 
