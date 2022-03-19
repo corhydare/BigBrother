@@ -31,7 +31,7 @@ arrow keys for selection and enter to confirm selection
 
 #### Screenshot
 
-![screenshot](./img/screen.png | width=100px)
+![screenshot](./img/screen.png|width=100px)
 
 #### Video
 
