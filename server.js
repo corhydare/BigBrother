@@ -80,14 +80,16 @@ function addEmployee() {
   inquirer
     .prompt([
       {
-        name: "firstname",
+        name: "First Name",
         type: "input",
         message: "Enter their first name ",
+        value: "firstname",
       },
       {
-        name: "lastname",
+        name: "Last Name",
         type: "input",
         message: "Enter their last name ",
+        value: "lastname",
       },
       {
         name: "role",
@@ -132,14 +134,14 @@ function updateEmployee() {
       inquirer
         .prompt([
           {
-            name: "lastName",
+            name: "lastname",
             type: "rawlist",
             choices: function () {
-              let lastName = [];
+              let lastname = [];
               for (let i = 0; i < res.length; i++) {
-                lastName.push(res[i].last_name);
+                lastname.push(res[i].last_name);
               }
-              return lastName;
+              return lastname;
             },
             message: "What is the Employee's last name? ",
           },
@@ -155,7 +157,7 @@ function updateEmployee() {
           db.query(
             "UPDATE employee SET WHERE ?",
             {
-              last_name: val.lastName,
+              last_name: val.lastname,
             },
             {
               role_id: roleId,
@@ -181,8 +183,6 @@ function viewAllRoles() {
     }
   );
 }
-/////////////////
-
 /////////////////////////////////////////
 function viewAllDepartments() {
   db.query(
