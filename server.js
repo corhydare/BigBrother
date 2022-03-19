@@ -129,7 +129,7 @@ function selectManager() {
     "SELECT first_name, last_name FROM employee WHERE manager_id IS NULL",
     function (err, res) {
       if (err) throw err;
-      for (let i = 0; i < res.length; i++) {
+      for (i = 0; i < res.length; i++) {
         mArr.push(res[i].first_name);
       }
     }
@@ -151,7 +151,7 @@ function updateEmployee() {
             type: "rawlist",
             choices: function () {
               let lastname = [];
-              for (let i = 0; i < res.length; i++) {
+              for (i = 0; i < res.length; i++) {
                 lastname.push(res[i].last_name);
               }
               return lastname;
@@ -213,7 +213,7 @@ let rArr = [];
 function selectRole() {
   db.query("SELECT * FROM role", function (err, res) {
     if (err) throw err;
-    for (let i = 0; i < res.length; i++) {
+    for (i = 0; i < res.length; i++) {
       rArr.push(res[i].title);
     }
   });
@@ -288,23 +288,23 @@ function beginSpying() {
         message: "What would you like to do?",
         name: "choice",
         choices: [
-          "View All Employees?",
-          "Add Employee?",
+          "View All Employees",
+          "Add Employee",
           "Update Employee Role",
           "View All Roles",
           "Add Role",
           "View All Deparments",
-          "Add Department?",
+          "Add Department",
         ],
       },
     ])
     .then(function (val) {
       switch (val.choice) {
-        case "View All Employees?":
+        case "View All Employees":
           viewAllEmployees();
           break;
 
-        case "Add Employee?":
+        case "Add Employee":
           addEmployee();
           break;
 
@@ -324,7 +324,7 @@ function beginSpying() {
           viewAllDepartments();
           break;
 
-        case "Add Department?":
+        case "Add Department":
           addDepartment();
           break;
       }
