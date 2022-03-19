@@ -1,6 +1,7 @@
 const express = require("express");
 const mysql = require("mysql2");
 const inquirer = require("inquirer");
+//////////
 const consoletable = require("console.table");
 const questions = require("./db/questions.js");
 
@@ -82,12 +83,12 @@ function addEmployee() {
       {
         name: "firstname",
         type: "input",
-        message: "Enter their first name ",
+        message: "Enter their first name",
       },
       {
         name: "lastname",
         type: "input",
-        message: "Enter their last name ",
+        message: "Enter their last name",
       },
       {
         name: "role",
@@ -121,6 +122,17 @@ function addEmployee() {
         }
       );
     });
+}
+/////////////////////////////////
+let rArr = [];
+function selectRole() {
+  db.query("SELECT title FROM role", function (err, res) {
+    if (err) throw err;
+    for (i = 0; i < res.length; i++) {
+      rArr.push(res[i].title);
+    }
+  });
+  return rArr;
 }
 
 /////////////////////////
@@ -208,17 +220,6 @@ function viewAllDepartments() {
   );
 }
 
-/////////////////////////////////
-let rArr = [];
-function selectRole() {
-  db.query("SELECT * FROM role.title", function (err, res) {
-    if (err) throw err;
-    for (i = 0; i < res.length; i++) {
-      rArr.push(res[i].title);
-    }
-  });
-  return rArr;
-}
 ///////////////
 let dArr = [];
 function selectDepartment() {
