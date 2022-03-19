@@ -104,15 +104,15 @@ function addEmployee() {
     ])
     ////////////////////////
     .then(function (val) {
-      const roleId = selectRole().indexOf(val.role) + 1;
-      const managerId = selectManager().indexOf(val.choice) + 1;
+      const rId = selectRole().indexOf(val.role) + 1;
+      const mId = selectManager().indexOf(val.choice) + 1;
       db.query(
         "INSERT INTO employee SET ?",
         {
           first_name: val.firstname,
           last_name: val.lastname,
-          manager_id: managerId,
-          role_id: roleId,
+          manager_id: mId,
+          role_id: rId,
         },
         function (err) {
           if (err) throw err;
@@ -142,20 +142,19 @@ function updateEmployee() {
   db.query(
     "SELECT employee.last_name, role.title FROM employee JOIN role ON employee.role_id = role.id;",
     function (err, res) {
-      // console.log(res)
       if (err) throw err;
       console.log(res);
       inquirer
         .prompt([
           {
-            name: "lastname",
+            name: "lastName",
             type: "rawlist",
             choices: function () {
-              let lastname = [];
+              let lastName = [];
               for (i = 0; i < res.length; i++) {
-                lastname.push(res[i].last_name);
+                lastName.push(res[i].last_name);
               }
-              return lastname;
+              return lastName;
             },
             message: "What is the Employee's last name? ",
           },
@@ -167,14 +166,14 @@ function updateEmployee() {
           },
         ])
         .then(function (val) {
-          const roleId = selectRole().indexOf(val.role) + 1;
+          const rId = selectRole().indexOf(val.role) + 1;
           db.query(
             "UPDATE employee SET WHERE ?",
             {
               last_name: val.lastname,
             },
             {
-              role_id: roleId,
+              role_id: rId,
             },
             function (err) {
               if (err) throw err;
@@ -212,7 +211,7 @@ function viewAllDepartments() {
 /////////////////////////////////
 let rArr = [];
 function selectRole() {
-  db.query("SELECT * FROM role", function (err, res) {
+  db.query("SELECT * FROM role.title", function (err, res) {
     if (err) throw err;
     for (i = 0; i < res.length; i++) {
       rArr.push(res[i].title);
@@ -220,42 +219,58 @@ function selectRole() {
   });
   return rArr;
 }
+///////////////
+let dArr = [];
+function selectDepartment() {
+  db.query("SELECT name FROM department", function (err, res) {
+    if (err) throw err;
+    for (i = 0; i < res.length; i++) {
+      dArr.push(res[i].name);
+    }
+  });
+  return dArr;
+}
 
 ///////////////////////
 function addRole() {
-  db.query(
-    "SELECT role.title AS Title, role.salary AS Salary FROM role",
-    function (err, res) {
-      inquirer
-        .prompt([
-          {
-            name: "Title",
-            type: "input",
-            message: "What is the new Title?",
-          },
-          {
-            name: "Salary",
-            type: "input",
-            message: "What's the Salary?",
-          },
-        ])
-        .then(function (res) {
-          db.query(
-            "INSERT INTO role SET ?",
-            {
-              title: res.Title,
-              salary: res.Salary,
-            },
-            function (err) {
-              if (err) throw err;
-              console.table(res);
-              beginSpying();
-            }
-          );
-        });
-    }
-  );
+  inquirer
+    .prompt([
+      {
+        name: "Title",
+        type: "input",
+        message: "What's the new Title?",
+      },
+      {
+        name: "Salary",
+        type: "input",
+        message: "What is their salary?",
+      },
+      {
+        name: "Department",
+        type: "list",
+        message: "Select Department",
+        choices: selectDepartment(),
+      },
+    ])
+    .then(function (res) {
+      const dId = selectDepartment().indexOf(res.Department) + 1;
+
+      db.query(
+        "INSERT INTO role SET ?",
+        {
+          title: res.Title,
+          salary: res.Salary,
+          department_id: dId,
+        },
+        function (err) {
+          if (err) throw err;
+          console.table(res);
+          beginSpying();
+        }
+      );
+    });
 }
+
 ///////////////////////////////////
 function addDepartment() {
   inquirer
