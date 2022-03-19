@@ -108,13 +108,8 @@ function addEmployee() {
       const rId = selectRole().indexOf(val.role) + 1;
       const mId = selectManager().indexOf(val.choice) + 1;
       db.query(
-        "INSERT INTO employee SET ?",
-        {
-          first_name: val.firstname,
-          last_name: val.lastname,
-          manager_id: mId,
-          role_id: rId,
-        },
+        `INSERT INTO employee SET first_name="${val.firstname}",last_name="${val.lastname}", manager_id="${mId}", role_id="${rId}" `,
+
         function (err) {
           if (err) throw err;
           console.table(val);
@@ -163,7 +158,9 @@ function updateEmployee() {
             name: "lastname",
             type: "list",
             message: "What is the Employee's last name? ",
+            ////////// can't move it outside since the same DB is already being used for this
             choices: function () {
+              let nArr = [];
               for (i = 0; i < res.length; i++) {
                 nArr.push(res[i].last_name);
               }
@@ -179,14 +176,9 @@ function updateEmployee() {
           },
         ])
         .then(function (val) {
-          const nId = selectName().indexOf(val.lastname) + 1;
           const rId = selectRole().indexOf(val.role) + 1;
           db.query(
-            "UPDATE employee SET WHERE ?",
-            {
-              last_name: nid,
-              role_id: rId,
-            },
+            `UPDATE employee SET last_name = "${val.lastname}" WHERE role_id = "${rId}"`,
             function (err) {
               if (err) throw err;
               console.table(val);
