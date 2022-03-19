@@ -98,13 +98,14 @@ function addEmployee() {
       {
         name: "choice",
         type: "rawlist",
-        message: "Whats their managers name?",
+        message: "Who is the manager?",
         choices: selectManager(),
       },
     ])
+    //////// why do we have to select manager? wouldn't it be better to have it automated, by department?
     .then(function (val) {
-      let roleId = selectRole().indexOf(val.role) + 1;
-      let managerId = selectManager().indexOf(val.choice) + 1;
+      const roleId = selectRole().indexOf(val.role) + 1;
+      const managerId = selectManager().indexOf(val.choice) + 1;
       db.query(
         "INSERT INTO employee SET ?",
         {
@@ -120,6 +121,20 @@ function addEmployee() {
         }
       );
     });
+}
+/////////////////////
+let mArr = [];
+function selectManager() {
+  db.query(
+    "SELECT first_name, last_name FROM employee WHERE manager_id IS NULL",
+    function (err, res) {
+      if (err) throw err;
+      for (let i = 0; i < res.length; i++) {
+        mArr.push(res[i].first_name);
+      }
+    }
+  );
+  return mArr;
 }
 ////////////////////////////////
 function updateEmployee() {
@@ -151,7 +166,7 @@ function updateEmployee() {
           },
         ])
         .then(function (val) {
-          let roleId = selectRole().indexOf(val.role) + 1;
+          const roleId = selectRole().indexOf(val.role) + 1;
           db.query(
             "UPDATE employee SET WHERE ?",
             {
@@ -204,20 +219,7 @@ function selectRole() {
   });
   return rArr;
 }
-/////////////////////
-let mArr = [];
-function selectManager() {
-  db.query(
-    "SELECT first_name, last_name FROM employee WHERE manager_id IS NULL",
-    function (err, res) {
-      if (err) throw err;
-      for (let i = 0; i < res.length; i++) {
-        mArr.push(res[i].first_name);
-      }
-    }
-  );
-  return mArr;
-}
+
 ///////////////////////
 function addRole() {
   db.query(
@@ -228,12 +230,12 @@ function addRole() {
           {
             name: "Title",
             type: "input",
-            message: "What is the roles Title?",
+            message: "What is the new Title?",
           },
           {
             name: "Salary",
             type: "input",
-            message: "What is the Salary?",
+            message: "What's the Salary?",
           },
         ])
         .then(function (res) {
@@ -264,7 +266,7 @@ function addDepartment() {
       },
     ])
     .then(function (res) {
-      let query = db.query(
+      const query = db.query(
         "INSERT INTO department SET ? ",
         {
           name: res.name,
