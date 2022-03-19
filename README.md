@@ -30,8 +30,7 @@ arrow keys for selection and enter to confirm selection
 ```
 
 #### Screenshot
-
-![screenshot](./img/screen.png |width=100px)
+<img src="./img/screen.png" width="200"/>
 
 #### Video
 
