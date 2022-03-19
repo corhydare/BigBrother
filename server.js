@@ -102,7 +102,7 @@ function addEmployee() {
         choices: selectManager(),
       },
     ])
-    //////// why do we have to select manager? wouldn't it be better to have it automated, by department?
+    ////////////////////////
     .then(function (val) {
       const roleId = selectRole().indexOf(val.role) + 1;
       const managerId = selectManager().indexOf(val.choice) + 1;
@@ -122,7 +122,8 @@ function addEmployee() {
       );
     });
 }
-/////////////////////
+
+/////////////////////////
 let mArr = [];
 function selectManager() {
   db.query(
