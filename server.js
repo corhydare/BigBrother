@@ -149,26 +149,27 @@ function selectManager() {
   );
   return mArr;
 }
+
 ////////////////////////////////
 function updateEmployee() {
   db.query(
     "SELECT employee.last_name, role.title FROM employee JOIN role ON employee.role_id = role.id;",
     function (err, res) {
       if (err) throw err;
-      console.log(res);
+      console.log(err);
       inquirer
         .prompt([
           {
-            name: "lastName",
-            type: "rawlist",
-            choices: function () {
-              let lastName = [];
-              for (i = 0; i < res.length; i++) {
-                lastName.push(res[i].last_name);
-              }
-              return lastName;
-            },
+            name: "lastname",
+            type: "list",
             message: "What is the Employee's last name? ",
+            choices: function () {
+              for (i = 0; i < res.length; i++) {
+                nArr.push(res[i].last_name);
+              }
+
+              return nArr;
+            },
           },
           {
             name: "role",
@@ -178,13 +179,12 @@ function updateEmployee() {
           },
         ])
         .then(function (val) {
+          const nId = selectName().indexOf(val.lastname) + 1;
           const rId = selectRole().indexOf(val.role) + 1;
           db.query(
             "UPDATE employee SET WHERE ?",
             {
-              last_name: val.lastname,
-            },
-            {
+              last_name: nid,
               role_id: rId,
             },
             function (err) {
